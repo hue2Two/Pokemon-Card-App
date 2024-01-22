@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Cards App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <h1>Pokemon Cards App</h1>
+        <hr>
+    </nav>
+    <section>
+        <div id="pokeCardsSearch">
+            <div id="forPokeSearch">
+                <label>Pokemon: </label>
+                <input id="pokeInput" type="text"></input>
+                <button id="search">search</button>
+                <div class="filter">
+                    <input type="radio" id="exFilter" name="pokeFilter">
+                    <label for="exFilter">EX</label>
+                </div>
+                <div class="filter">
+                    <input type="radio" id="lvxFilter" name="pokeFilter">
+                    <label for="lvxFilter">LV.X</label>
+                </div>
+                <div class="filter">
+                    <input type="radio" id="gxFilter" name="pokeFilter">
+                    <label for="gxFilter">GX</label>
+                </div>
+            </div>
+            <div id="forPokeCards">
+                <p id="pokeCards">...</p>
+            </div>
+        </div>
+        <div id="pokeCardsSell">
+            <p>...</p>
+        </div>
+    </section>
+    <script src="scripts.js"></script>
+</body>
+</html>

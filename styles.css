@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    border: solid purple 5px;
+    /* display: flex; */
+}
+
+nav {
+    border: solid green 5px;
+    display: flex;
+}
+
+section {
+    border: solid pink 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#pokeCardsSearch {
+    display: flex;
+    flex-direction: column;
+    border: solid blue 5px;
+    width: 60vw;
+}
+
+#pokeCardsSell {
+    border: solid red 5px;
+    width: 30vw;
+}
+
+#pokeCards {
+    border: solid gray 5px;
+    /* display: inline; */
+}
+
+/* img {
+    border: solid brown 5px;
+    margin: 2px;
+} */
+
+.filter {
+    border: solid orange 5px;
+}
+
+#forPokeSearch {
+    border: solid yellow 5px;
+    display: flex;
+}
+
+.pokeFilterClass {
+    border: solid black 5px;
+    width: fit-content;
+    margin: 5px;
+    padding: 5px;
+    background-color: lightgreen;
+}
+
+.cardsContainerClass {
+    border: solid lightblue 5px;
+    width: 850px;
+
+    display: flex;
+    flex-wrap: wrap;
+}
