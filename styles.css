@@ -48,6 +48,11 @@ section {
 #forPokeSearch {
     border: solid yellow 5px;
     display: flex;
+    justify-content: space-between;
+}
+
+#special1 {
+    display: flex;
 }
 
 .pokeFilterClass {
@@ -58,10 +63,24 @@ section {
     background-color: lightgreen;
 }
 
+.pokeFilterClass:hover {
+    cursor: pointer;
+}
+
 .cardsContainerClass {
     border: solid lightblue 5px;
-    width: 850px;
+    width: auto;
+    margin: 10px;
 
     display: flex;
     flex-wrap: wrap;
+}
+
+#sellPokeCards {
+    border: solid maroon 5px;
+}
+
+.containerOfInfo {
+    border: solid yellowgreen 5px;
+    margin: 5px;
 }

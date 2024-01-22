@@ -14,20 +14,25 @@
     <section>
         <div id="pokeCardsSearch">
             <div id="forPokeSearch">
-                <label>Pokemon: </label>
-                <input id="pokeInput" type="text"></input>
-                <button id="search">search</button>
-                <div class="filter">
-                    <input type="radio" id="exFilter" name="pokeFilter">
-                    <label for="exFilter">EX</label>
+                <div>
+                    <label>Pokemon: </label>
+                    <input id="pokeInput" type="text"></input>
+                    <button id="search">search</button>
                 </div>
-                <div class="filter">
-                    <input type="radio" id="lvxFilter" name="pokeFilter">
-                    <label for="lvxFilter">LV.X</label>
-                </div>
-                <div class="filter">
-                    <input type="radio" id="gxFilter" name="pokeFilter">
-                    <label for="gxFilter">GX</label>
+                
+                <div id="special1">
+                    <div class="filter">
+                        <input type="radio" id="exFilter" name="pokeFilter">
+                        <label for="exFilter">EX</label>
+                    </div>
+                    <div class="filter">
+                        <input type="radio" id="lvxFilter" name="pokeFilter">
+                        <label for="lvxFilter">LV.X</label>
+                    </div>
+                    <div class="filter">
+                        <input type="radio" id="gxFilter" name="pokeFilter">
+                        <label for="gxFilter">GX</label>
+                    </div>
                 </div>
             </div>
             <div id="forPokeCards">
@@ -35,9 +40,13 @@
             </div>
         </div>
         <div id="pokeCardsSell">
-            <p>...</p>
+            <button id="addPokeCards">ADD</button>
+            <p id="sellPokeCards"></p>
+            <label>Copy Text:</label>
+            <button id="copyText">Copy Text</button>
         </div>
     </section>
     <script src="scripts.js"></script>
+    <script src="toSell.js"></script>
 </body>
 </html>

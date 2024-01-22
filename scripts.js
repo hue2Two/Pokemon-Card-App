@@ -4,10 +4,90 @@ let search = document.querySelector("#search");
 let filterEx = document.querySelector("#exFilter");
 let filterLvx = document.querySelector("#lvxFilter");
 let filterGx = document.querySelector("#gxFilter");
+let addPokeCards = document.querySelector("#addPokeCards");
+let sellPokeCards = document.querySelector("#sellPokeCards");
+let selectedCardData = null;
+let selectedCardBorder = null;
+let copyText = document.querySelector("#copyText");
 
 console.log(`grabbing ex filter: ${filterEx}`);
 console.log(`grabbing lvx filter: ${filterLvx}`);
 console.log(`grabbing lvx filter: ${filterGx}`);
+console.log(`grabbing copyText: ${copyText}`);
+
+const searchPokeCards = (userInput) => {
+    let query = `name:${userInput}`;
+    let url = `https://api.pokemontcg.io/v2/cards?q=${query}`;
+    // let url = `https://api.pokemontcg.io/v2/cards?q=${query}&pageSize=9`;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        let allCards = data.data;
+        console.log(`ALL CARDS 1-1: ${(data)}`);
+        console.log(`ALL CARDS 1-2: ${(data.data)}`);
+        console.log(`ALL CARDS 1-3: ${JSON.stringify(data)}`)
+
+        // Create a div to contain all card divs
+        let cardsContainer = document.createElement("div");
+        cardsContainer.classList.add('cardsContainerClass');
+
+        for (let i = 0; i < allCards.length; i++) {
+            // Create a div to wrap the image and price
+            let cardWrapper = document.createElement("div");
+            cardWrapper.classList.add('pokeFilterClass');
+
+            // Create and append the image element
+            let cardImg = document.createElement("img");
+            cardImg.src = allCards[i].images.small;
+            cardWrapper.appendChild(cardImg);
+
+            // Create and append the price element
+            let cardPrice = document.createElement("p");
+            cardPrice.textContent = "market price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.market || 'N/A');
+
+            let cardPrice2 = document.createElement("p");
+            cardPrice2.textContent = "low price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.low || 'N/A');
+
+            let cardPrice3 = document.createElement("p");
+            cardPrice3.textContent = "mid price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.mid || 'N/A');
+
+            let cardPrice4 = document.createElement("p");
+            cardPrice4.textContent = "high price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.high || 'N/A');
+
+            
+
+            cardWrapper.appendChild(cardPrice);
+            cardWrapper.appendChild(cardPrice2);
+            cardWrapper.appendChild(cardPrice3);
+            cardWrapper.appendChild(cardPrice4);
+
+            // Add click event listener to each card
+            cardWrapper.addEventListener('click', function() {
+                console.log(`card inside was clicked`);
+
+                // Reset borders of all cards to black
+                document.querySelectorAll('.pokeFilterClass').forEach(card => {
+                    card.style.border = "solid black 5px";
+                });
+
+                selectedCardData = allCards[i]; // Store the card data
+                selectedCardBorder = cardWrapper;
+                cardWrapper.style.border = "solid brown 5px";
+            });
+            
+
+
+            // Append the wrapper div to cardsContainer
+            cardsContainer.appendChild(cardWrapper);
+        }
+
+        pokeCards.appendChild(cardsContainer);
+    })
+    .catch(error => {
+        console.error('Error fetching data: ', error);
+    });
+};
 
 search.addEventListener("click", () => {
     pokeCards.textContent = "";
@@ -16,192 +96,95 @@ search.addEventListener("click", () => {
         radio.checked = false;
     });
 
-    console.log("SEARCH WAS CLICKED");
-
     let userInput = pokeInput.value;
-    console.log(`USER INPUT: ${userInput}`);
-
-    let searchPokeCards = () => {
-        let query = `name:${userInput}`;
-        let url = `https://api.pokemontcg.io/v2/cards?q=${(query)}&pageSize=15`;
-
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(`Needed Search Results: ${JSON.stringify(data.data[0].images.small)}`);
-
-            console.log(`ALL RESULTS: ${JSON.stringify(data)}`);
-
-            console.log(`POSSIBLE RESULTS: ${JSON.stringify(data.data[1].images.small)}`);
-
-            let allCards = data.data;
-            console.log(`ALL CARDS:${allCards}`);
-            console.log(`ALL CARDS LENGTH: ${allCards.length}`)
-
-            for(let i = 0; i < allCards.length; i++) {
-                console.log(`LOOPING CARDS: ${JSON.stringify(allCards[i].images.small)}`);
-
-                let cardImg = document.createElement("img");
-                cardImg.src = allCards[i].images.small;
-                pokeCards.appendChild(cardImg);
-            }
-
-            // let card1Img = document.createElement("img");
-            // card1Img.src = data.data[0].images.small;
-            // pokeCards.appendChild(card1Img);
-    })
-    .catch(error => {
-        console.error('Error fetching data: ', error);
-    });
-    }
-
-    searchPokeCards()
-})
+    searchPokeCards(userInput);
+});
 
 filterEx.addEventListener("change", () => {
-    console.log("ex filter changed");
-
-    // pokeCards.textContent = "test";
     pokeCards.textContent = "";
     let userInput = pokeInput.value + "-Ex";
-    console.log(`checking input for ex filter: ${userInput}`);
-
-    let searchPokeCards = () => {
-        let query = `name:${userInput}`;
-        let url = `https://api.pokemontcg.io/v2/cards?q=${(query)}&pageSize=15`;
-
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(`Needed Search Results: ${JSON.stringify(data.data[0].images.small)}`);
-
-            console.log(`ALL EX RESULTS: ${JSON.stringify(data)}`);
-
-            console.log(`POSSIBLE RESULTS: ${JSON.stringify(data.data[1].images.small)}`);
-
-            let allCards = data.data;
-            console.log(`ALL CARDS:${allCards}`);
-            console.log(`ALL CARDS LENGTH: ${allCards.length}`)
-
-            for(let i = 0; i < allCards.length; i++) {
-                console.log(`LOOPING CARDS: ${JSON.stringify(allCards[i].images.small)}`);
-
-                let cardImg = document.createElement("img");
-                cardImg.src = allCards[i].images.small;
-                pokeCards.appendChild(cardImg);
-            }
-
-            // let card1Img = document.createElement("img");
-            // card1Img.src = data.data[0].images.small;
-            // pokeCards.appendChild(card1Img);
-    })
-    .catch(error => {
-        console.error('Error fetching data: ', error);
-    });
-    }
-
-    searchPokeCards();
-})
+    searchPokeCards(userInput);
+});
 
 filterLvx.addEventListener("change", () => {
-    console.log(`lvx filter changed`);
     pokeCards.textContent = "";
     let userInput = pokeInput.value + "*LV.X";
-
-    let searchPokeCards = () => {
-        let query = `name:${userInput}`;
-        let url = `https://api.pokemontcg.io/v2/cards?q=${(query)}&pageSize=15`;
-
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(`FETCHING LVX P1-1: ${data}`);
-            console.log(`FETCHING LVX P1-2: ${JSON.stringify(data)}`);
-
-            console.log(`POSSIBLE RESULTS: ${JSON.stringify(data.data[1].images.small)}`);
-
-            let allCards = data.data;
-            console.log(`ALL CARDS:${allCards}`);
-            console.log(`ALL CARDS LENGTH: ${allCards.length}`);
-
-            for(let i = 0; i < allCards.length; i++) {
-                console.log(`LOOPING CARDS: ${JSON.stringify(allCards[i].images.small)}`);
-
-                let cardImg = document.createElement("img");
-                cardImg.src = allCards[i].images.small;
-                pokeCards.appendChild(cardImg);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data: ', error);
-        });
-    }
-
-    searchPokeCards();
-})
+    searchPokeCards(userInput);
+});
 
 filterGx.addEventListener("change", () => {
-    console.log(`gx filter changed`);
     pokeCards.textContent = "";
     let userInput = pokeInput.value + "-GX";
+    searchPokeCards(userInput);
+});
 
-    let searchPokeCards = () => {
-        let query = `name:${userInput}`;
-        let url = `https://api.pokemontcg.io/v2/cards?q=${(query)}&pageSize=15`;
+addPokeCards.addEventListener("click", () => {
+    if (selectedCardData) {
+        console.log(`Adding card: ${selectedCardData.name}`);
 
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(`FETCHING GX P1-1: ${data}`);
-            console.log(`FETCHING GX P1-2: ${JSON.stringify(data)}`);
+        let infoContainer = document.createElement("div");
+        infoContainer.classList.add('containerOfInfo');
 
-            console.log(`POSSIBLE RESULTS: ${JSON.stringify(data.data[1].images.small)}`);
+        let addingCards = document.createElement("p");
+        addingCards.textContent = `name: ${selectedCardData.name}`;
+        infoContainer.appendChild(addingCards);
 
-            let allCards = data.data;
-            console.log(`ALL CARDS:${allCards}`);
-            console.log(`ALL CARDS LENGTH: ${allCards.length}`);
+        let addingCards2 = document.createElement("p");
+        addingCards2.textContent = `set: ${selectedCardData.set.id}`;
+        infoContainer.appendChild(addingCards2);
 
-            // Create a div to contain all card divs
-            let cardsContainer = document.createElement("div");
-            cardsContainer.classList.add('cardsContainerClass');
+        let addingCards3 = document.createElement("p");
+        addingCards3.textContent = `price: ${selectedCardData.tcgplayer?.prices.holofoil?.market || 'N/A'}`;
+        infoContainer.appendChild(addingCards3);
 
-            for(let i = 0; i < allCards.length; i++) {
-                console.log(`LOOPING CARDS: ${JSON.stringify(allCards[i].images.small)}`);
+        let addingCards4 = document.createElement("p");
+        addingCards4.textContent = `low: ${selectedCardData.tcgplayer?.prices.holofoil?.low || 'N/A'}`;
+        infoContainer.appendChild(addingCards4);
 
-                // Create a div to wrap the image and price
-                let cardWrapper = document.createElement("div");
-                cardWrapper.classList.add('pokeFilterClass');
+        let addingCards5 = document.createElement("p");
+        addingCards5.textContent = `mid: ${selectedCardData.tcgplayer?.prices.holofoil?.mid || 'N/A'}`;
+        infoContainer.appendChild(addingCards5);
 
-                // Create and append the image element
-                let cardImg = document.createElement("img");
-                cardImg.src = allCards[i].images.small;
-                cardWrapper.appendChild(cardImg);
+        let addingCards6 = document.createElement("p");
+        addingCards6.textContent = `price: ${selectedCardData.tcgplayer?.prices.holofoil?.high || 'N/A'}`;
+        infoContainer.appendChild(addingCards6);
+        // sellPokeCards.appendChild(addingCards);
 
-                // Create and append the price element
-                let cardPrice = document.createElement("p");
-                cardPrice.textContent = "market price: $" + data.data[i].tcgplayer?.prices.holofoil.market;
-                cardWrapper.appendChild(cardPrice);
+        sellPokeCards.appendChild(infoContainer);
 
-                // Append the wrapper div to pokeCards
-                // pokeCards.appendChild(cardWrapper);
-
-                cardsContainer.appendChild(cardWrapper);
-
-                console.log(`FETCHING PRICES 1-1: ${JSON.stringify(data.data[i].tcgplayer)}`);
-
-                // console.log(`FETCHING PRICES 1-2: ${JSON.stringify(data.data[i].tcgplayer.prices)}`);
-
-                console.log(`FETCHING PRICES 1-2: ${JSON.stringify(data.data[i].tcgplayer?.prices.holofoil.market)}`);
-
-            }
-
-            pokeCards.appendChild(cardsContainer);
-        }
-        )
-        .catch(error => {
-            console.error('Error fetching data: ', error);
-        });
+        selectedCardBorder.style.border = "solid black 5px";
+    } else {
+        console.log("No card selected");
     }
+});
 
-    searchPokeCards();
-})
+
+// let addPokeCards = document.querySelector("#addPokeCards");
+// let sellPokeCards = document.querySelector("#sellPokeCards");
+console.log(`targeting add poke cards bt: ${addPokeCards}`);
+console.log(`targeting sell poke cards p: ${sellPokeCards}`);
+// sellPokeCards.textContent = "test";
+
+// cardWrapper.addEventListener('click', function() {
+//     console.log(`card inside was clicked`);
+//     console.log(`card inside info 1-1: ${allCards[i].set.id};`);
+//     console.log(`card inside info 1-2: ${allCards[i].tcgplayer?.prices.holofoil?.market || 'N/A'}`);
+//     console.log(`card inside info 1-1: ${allCards[i].name};`);
+
+//     cardWrapper.style.border = "solid brown 5px";
+
+//     addPokeCards.addEventListener("click", () => {
+        
+//         console.log(`add poke cards was clicked`);
+        
+//         if(cardWrapper.style.border == "solid brown 5px") {
+            
+//         }
+//         let addingCards = document.createElement("p");
+//         addingCards.textContent = `set: ${allCards[i].set.id}`;
+
+//         sellPokeCards.appendChild(addingCards);
+
+//         cardWrapper.style.border = "solid black 5px";
+//     })
+// })
