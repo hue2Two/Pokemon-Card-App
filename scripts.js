@@ -8,8 +8,11 @@ let addPokeCards = document.querySelector("#addPokeCards");
 let sellPokeCards = document.querySelector("#sellPokeCards");
 let selectedCardData = null;
 let selectedCardBorder = null;
+let defaultFilter = document.querySelector("#defaultFilter");
 // let copyText = document.querySelector("#copyText");
 let removePokeCards = document.querySelector("#removePokeCards");
+
+console.log(`targetting default filter: ${defaultFilter}`);
 
 console.log(`grabbing ex filter: ${filterEx}`);
 console.log(`grabbing lvx filter: ${filterLvx}`);
@@ -48,8 +51,15 @@ const searchPokeCards = (userInput) => {
         let cardsContainer = document.createElement("div");
         cardsContainer.classList.add('cardsContainerClass');
 
+        //check if no cards found
+        if (allCards.length == 0) {
+            console.log(`that card does not exist`);
+            pokeCards.textContent = "that card does not exit";
+        }
+
         //loop through each obj of data card fetched
         for (let i = 0; i < allCards.length; i++) {
+
             // Create a div to wrap the image and price
             let cardWrapper = document.createElement("div");
             cardWrapper.classList.add('pokeFilterClass');
@@ -62,16 +72,16 @@ const searchPokeCards = (userInput) => {
 
             // Create and append the price element
             let cardPrice = document.createElement("p");
-            cardPrice.textContent = "market price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.market || 'N/A');
+            cardPrice.textContent = "︵‿︵ market price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.market || 'N/A') + " ︵‿︵";
 
             let cardPrice2 = document.createElement("p");
-            cardPrice2.textContent = "low price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.low || 'N/A');
+            cardPrice2.textContent = "︵‿︵ low price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.low || 'N/A') + " ︵‿︵";
 
             let cardPrice3 = document.createElement("p");
-            cardPrice3.textContent = "mid price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.mid || 'N/A');
+            cardPrice3.textContent = "︵‿︵ mid price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.mid || 'N/A') + " ︵‿︵";
 
             let cardPrice4 = document.createElement("p");
-            cardPrice4.textContent = "high price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.high || 'N/A');
+            cardPrice4.textContent = "︵‿︵ high price: $" + (allCards[i]?.tcgplayer?.prices?.holofoil?.high || 'N/A') + " ︵‿︵";
 
             
 
@@ -153,6 +163,13 @@ search.addEventListener("click", () => {
     searchPokeCards(userInput);
 });
 
+defaultFilter.addEventListener("change", () => {
+    console.log(`the filter was changed to default`);
+    pokeCards.textContent = "";
+    let userInput = pokeInput.value;
+    searchPokeCards(userInput);
+})
+
 filterEx.addEventListener("change", () => {
     pokeCards.textContent = "";
     let userInput = pokeInput.value + "-Ex";
@@ -163,6 +180,13 @@ filterLvx.addEventListener("change", () => {
     pokeCards.textContent = "";
     let userInput = pokeInput.value + "*LV.X";
     searchPokeCards(userInput);
+
+    //check if p tag is still blank after search
+    // if(pokeCards.childNodes.length == 0) {
+    //     console.log(`No Lv.x Exists For This Card`);
+
+    //     pokeCards.textContent = `No Lv.x Exists For This Card`;
+    // }
 });
 
 filterGx.addEventListener("change", () => {

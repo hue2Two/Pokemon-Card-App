@@ -9,7 +9,6 @@
 <body>
     <nav>
         <h1>Pokemon Cards App</h1>
-        <hr>
     </nav>
     <section>
         <div id="pokeCardsSearch">
@@ -21,6 +20,10 @@
                 </div>
                 
                 <div id="special1">
+                    <div class="filter">
+                        <input type="radio" id="defaultFilter" name="pokeFilter">
+                        <label for="defaultFilter">Default</label>
+                    </div>
                     <div class="filter">
                         <input type="radio" id="exFilter" name="pokeFilter">
                         <label for="exFilter">EX</label>
@@ -35,10 +38,16 @@
                     </div>
                 </div>
             </div>
+
+            <div>
+                <p>Popular Searches: charizard, pikachu, lugia</p>
+            </div>
+
             <div id="forPokeCards">
-                <p id="pokeCards">...</p>
+                <p id="pokeCards"></p>
             </div>
         </div>
+        
         <div id="pokeCardsSell">
             <button id="addPokeCards">ADD</button>
             <button id="removePokeCards">REMOVE</button>
