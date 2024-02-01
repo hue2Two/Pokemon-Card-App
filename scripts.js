@@ -8,17 +8,33 @@ let addPokeCards = document.querySelector("#addPokeCards");
 let sellPokeCards = document.querySelector("#sellPokeCards");
 let selectedCardData = null;
 let selectedCardBorder = null;
-let copyText = document.querySelector("#copyText");
+// let copyText = document.querySelector("#copyText");
+let removePokeCards = document.querySelector("#removePokeCards");
 
 console.log(`grabbing ex filter: ${filterEx}`);
 console.log(`grabbing lvx filter: ${filterLvx}`);
 console.log(`grabbing lvx filter: ${filterGx}`);
-console.log(`grabbing copyText: ${copyText}`);
+// console.log(`grabbing copyText: ${copyText}`);
+console.log(`grabbing remove pokeCards: ${removePokeCards}`);
+
+let loader = null;
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     loader = document.querySelector(".loader");
+
+//     // Hide loader initially
+//     loader.classList.add("loader-hidden");
+
+
+// })
 
 const searchPokeCards = (userInput) => {
     let query = `name:${userInput}`;
     let url = `https://api.pokemontcg.io/v2/cards?q=${query}`;
     // let url = `https://api.pokemontcg.io/v2/cards?q=${query}&pageSize=9`;
+
+    // Show loader
+    loader.classList.remove("loader-hidden");
 
     fetch(url)
     .then(response => response.json())
@@ -32,10 +48,12 @@ const searchPokeCards = (userInput) => {
         let cardsContainer = document.createElement("div");
         cardsContainer.classList.add('cardsContainerClass');
 
+        //loop through each obj of data card fetched
         for (let i = 0; i < allCards.length; i++) {
             // Create a div to wrap the image and price
             let cardWrapper = document.createElement("div");
             cardWrapper.classList.add('pokeFilterClass');
+            // cardWrapper.classList.add('pokeFilterClass2');
 
             // Create and append the image element
             let cardImg = document.createElement("img");
@@ -62,6 +80,14 @@ const searchPokeCards = (userInput) => {
             cardWrapper.appendChild(cardPrice3);
             cardWrapper.appendChild(cardPrice4);
 
+        // cardWrapper.addEventListener('mouseover', function() {
+        //         this.style.border = 'solid brown 5px';
+        //     });
+
+        // cardWrapper.addEventListener('mouseout', function() {
+        //         this.style.border = 'solid black 5px'; 
+        //     });
+
             // Add click event listener to each card
             cardWrapper.addEventListener('click', function() {
                 console.log(`card inside was clicked`);
@@ -74,6 +100,17 @@ const searchPokeCards = (userInput) => {
                 selectedCardData = allCards[i]; // Store the card data
                 selectedCardBorder = cardWrapper;
                 cardWrapper.style.border = "solid brown 5px";
+
+                console.log(`SELECTEDCARDATA: ${JSON.stringify(selectedCardData)}`);
+                console.log(`SELECTEDCARDBORDER: ${JSON.stringify(selectedCardBorder)}`);
+                
+                // cardWrapper.addEventListener('mouseover', function() {
+                //     this.style.border = 'solid brown 5px';
+                // });
+
+                // cardWrapper.addEventListener('mouseout', function() {
+                //     this.style.border = 'solid black 5px'; 
+                // });
             });
             
 
@@ -86,8 +123,24 @@ const searchPokeCards = (userInput) => {
     })
     .catch(error => {
         console.error('Error fetching data: ', error);
+    })
+    .finally(() => {
+        // Hide loader
+        loader.classList.add("loader-hidden");
     });
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+    loader = document.querySelector(".loader");
+
+    // Hide loader initially
+    loader.classList.add("loader-hidden");
+    pokeCards.textContent = "";
+    // let userInput = pokeInput.value + "-Ex";
+    searchPokeCards('palkia');
+    pokeInput.value = "palkia";
+
+})
 
 search.addEventListener("click", () => {
     pokeCards.textContent = "";
@@ -118,53 +171,6 @@ filterGx.addEventListener("change", () => {
     searchPokeCards(userInput);
 });
 
-addPokeCards.addEventListener("click", () => {
-    if (selectedCardData) {
-        console.log(`Adding card: ${selectedCardData.name}`);
-
-        let infoContainer = document.createElement("div");
-        infoContainer.classList.add('containerOfInfo');
-
-        let addingCards = document.createElement("p");
-        addingCards.textContent = `name: ${selectedCardData.name}`;
-        infoContainer.appendChild(addingCards);
-
-        let addingCards2 = document.createElement("p");
-        addingCards2.textContent = `set: ${selectedCardData.set.id}`;
-        infoContainer.appendChild(addingCards2);
-
-        let addingCards3 = document.createElement("p");
-        addingCards3.textContent = `price: ${selectedCardData.tcgplayer?.prices.holofoil?.market || 'N/A'}`;
-        infoContainer.appendChild(addingCards3);
-
-        let addingCards4 = document.createElement("p");
-        addingCards4.textContent = `low: ${selectedCardData.tcgplayer?.prices.holofoil?.low || 'N/A'}`;
-        infoContainer.appendChild(addingCards4);
-
-        let addingCards5 = document.createElement("p");
-        addingCards5.textContent = `mid: ${selectedCardData.tcgplayer?.prices.holofoil?.mid || 'N/A'}`;
-        infoContainer.appendChild(addingCards5);
-
-        let addingCards6 = document.createElement("p");
-        addingCards6.textContent = `price: ${selectedCardData.tcgplayer?.prices.holofoil?.high || 'N/A'}`;
-        infoContainer.appendChild(addingCards6);
-        // sellPokeCards.appendChild(addingCards);
-
-        sellPokeCards.appendChild(infoContainer);
-
-        selectedCardBorder.style.border = "solid black 5px";
-    } else {
-        console.log("No card selected");
-    }
-});
-
-
-// let addPokeCards = document.querySelector("#addPokeCards");
-// let sellPokeCards = document.querySelector("#sellPokeCards");
-console.log(`targeting add poke cards bt: ${addPokeCards}`);
-console.log(`targeting sell poke cards p: ${sellPokeCards}`);
-// sellPokeCards.textContent = "test";
-
 // cardWrapper.addEventListener('click', function() {
 //     console.log(`card inside was clicked`);
 //     console.log(`card inside info 1-1: ${allCards[i].set.id};`);
@@ -188,3 +194,5 @@ console.log(`targeting sell poke cards p: ${sellPokeCards}`);
 //         cardWrapper.style.border = "solid black 5px";
 //     })
 // })
+
+
