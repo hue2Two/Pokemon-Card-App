@@ -35,6 +35,8 @@ section {
     border: solid gray 5px;
     /* display: inline; */
     text-align: center;
+    height: 85vh;
+    overflow: scroll;
 }
 
 /* img {
@@ -50,6 +52,19 @@ section {
     border: solid yellow 5px;
     display: flex;
     justify-content: space-between;
+    /* position: fixed; */
+}
+
+#forPokeSearch label {
+    font-size: x-large;
+}
+
+#forPokeSearch button {
+    font-size: x-large;
+}
+
+#forPokeSearch input {
+    font-size: x-large;
 }
 
 #special1 {
@@ -115,6 +130,7 @@ section {
 #addPokeCards {
     background-color: lightblue;
     border-radius: 5px;
+    font-size: large;
 }
 
 #addPokeCards:hover {
@@ -131,6 +147,7 @@ section {
 #removePokeCards {
     background-color: lightblue;
     border-radius: 5px;
+    font-size: large;
 }
 
 #removePokeCards:hover {
@@ -163,6 +180,7 @@ section {
 #copyText {
     background-color: lightblue;
     border-radius: 5px;
+    font-size: large;
 }
 
 #copyText:hover {
@@ -209,11 +227,12 @@ section {
     100% { transform: rotate(360deg); }
 }
 
+
 /* ---------------------------------------------------------------- */
 
 @media only screen and (max-width: 985px) {
     section {
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
     #pokeCardsSearch {
@@ -223,6 +242,11 @@ section {
     .cardsContainerClass {
         margin: 0px;
         height: 900px;
+        overflow: scroll;
+    }
+
+    #sellPokeCards {
+        height: 140px;
         overflow: scroll;
     }
 
@@ -241,7 +265,7 @@ section {
 
 @media only screen and (max-width: 585px) {
     section {
-        flex-direction: column;
+        flex-direction: column-reverse
     }
 
     #pokeCardsSearch {
@@ -251,6 +275,11 @@ section {
     .cardsContainerClass {
         margin: 0px;
         height: 450px;
+        overflow: scroll;
+    }
+
+    #sellPokeCards {
+        height: 140px;
         overflow: scroll;
     }
 
